@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DahriLabs - AI First Aid Assistant</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Base styles */
+:root {
+  --blue-50: #f0f9ff;
+  --blue-100: #e0f2fe;
+  --blue-600: #2563eb;
+  --blue-700: #1d4ed8;
+  --blue-900: #1e3a8a;
+  --green-100: #dcfce7;
+  --green-600: #16a34a;
+  --green-700: #15803d;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --yellow-500: #eab308;
+  --white: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--gray-600);
+}
+
+/* Layout */
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.flex {
+  display: flex;
+}
+
+.grid {
+  display: grid;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.items-start {
+  align-items: flex-start;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.justify-end {
+  justify-content: flex-end;
+}
+
+.gap-1 {
+  gap: 0.25rem;
+}
+
+.gap-2 {
+  gap: 0.5rem;
+}
+
+.gap-4 {
+  gap: 1rem;
+}
+
+.gap-6 {
+  gap: 1.5rem;
+}
+
+.space-y-2 > * + * {
+  margin-top: 0.5rem;
+}
+
+.space-y-3 > * + * {
+  margin-top: 0.75rem;
+}
+
+.space-y-4 > * + * {
+  margin-top: 1rem;
+}
+
+.space-y-6 > * + * {
+  margin-top: 1.5rem;
+}
+
+.min-h-screen {
+  min-height: 100vh;
+}
+
+.h-5 {
+  height: 1.25rem;
+}
+
+.h-6 {
+  height: 1.5rem;
+}
+
+.h-8 {
+  height: 2rem;
+}
+
+.h-10 {
+  height: 2.5rem;
+}
+
+.h-16 {
+  height: 4rem;
+}
+
+.w-5 {
+  width: 1.25rem;
+}
+
+.w-6 {
+  width: 1.5rem;
+}
+
+.w-8 {
+  width: 2rem;
+}
+
+.w-10 {
+  width: 2.5rem;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.max-w-500 {
+  max-width: 500px;
+}
+
+.max-w-600 {
+  max-width: 600px;
+}
+
+.max-w-900 {
+  max-width: 900px;
+}
+
+
+.max-w-5xl {
+  max-width: 64rem;
+}
+
+.flex-1 {
+  flex: 1 1 0%;
+}
+
+.grid-cols-1 {
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+.aspect-square {
+  aspect-ratio: 1 / 1;
+}
+
+/* Typography */
+.text-xs {
+  font-size: 0.75rem;
+}
+
+.text-sm {
+  font-size: 0.875rem;
+}
+
+.text-xl {
+  font-size: 1.25rem;
+}
+
+.text-2xl {
+  font-size: 1.5rem;
+}
+
+.text-3xl {
+  font-size: 1.875rem;
+}
+
+.text-4xl {
+  font-size: 2.25rem;
+}
+
+.font-medium {
+  font-weight: 500;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.tracking-tighter {
+  letter-spacing: -0.05em;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.italic {
+  font-style: italic;
+}
+
+/* Colors */
+.bg-white {
+  background-color: var(--white);
+}
+
+.bg-blue-50 {
+  background-color: var(--blue-50);
+}
+
+.bg-blue-100 {
+  background-color: var(--blue-100);
+}
+
+.bg-blue-600 {
+  background-color: var(--blue-600);
+}
+
+.bg-blue-900 {
+  background-color: var(--blue-900);
+}
+
+.bg-green-100 {
+  background-color: var(--green-100);
+}
+
+.bg-green-600 {
+  background-color: var(--green-600);
+}
+
+.bg-gray-100 {
+  background-color: #f3f4f6;
+}
+
+.bg-gray-300 {
+  background-color: var(--gray-300);
+}
+
+.text-white {
+  color: var(--white);
+}
+
+.text-blue-100 {
+  color: var(--blue-100);
+}
+
+.text-blue-700 {
+  color: var(--blue-700);
+}
+
+.text-blue-900 {
+  color: var(--blue-900);
+}
+
+.text-green-600 {
+  color: var(--green-600);
+}
+
+.text-green-700 {
+  color: var(--green-700);
+}
+
+.text-gray-500 {
+  color: var(--gray-500);
+}
+
+.text-gray-600 {
+  color: var(--gray-600);
+}
+
+.text-yellow-500 {
+  color: var(--yellow-500);
+}
+
+.border {
+  border-width: 1px;
+  border-style: solid;
+}
+
+.border-2 {
+  border-width: 2px;
+  border-style: solid;
+}
+
+.border-t {
+  border-top-width: 1px;
+  border-top-style: solid;
+}
+
+.border-b {
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+}
+
+.border-gray-200 {
+  border-color: var(--gray-200);
+}
+
+.border-blue-600 {
+  border-color: var(--blue-600);
+}
+
+/* Components */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.375rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.5;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+
+.button-outline {
+  background-color: transparent;
+  border: 1px solid;
+}
+
+.button-ghost {
+  background-color: transparent;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+.rounded-lg {
+  border-radius: 0.5rem;
+}
+
+.rounded-xl {
+  border-radius: 0.75rem;
+}
+
+.rounded-2xl {
+  border-radius: 1rem;
+}
+
+.rounded-full {
+  border-radius: 9999px;
+}
+
+.shadow-sm {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.shadow-xl {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.object-cover {
+  object-fit: cover;
+}
+
+.object-center {
+  object-position: center;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.sticky {
+  position: sticky;
+}
+
+.top-0 {
+  top: 0;
+}
+
+.z-40 {
+  z-index: 40;
+}
+
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.inset-0 {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.p-1 {
+  padding: 0.25rem;
+}
+
+.p-3 {
+  padding: 0.75rem;
+}
+
+.p-6 {
+  padding: 1.5rem;
+}
+
+.px-3 {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.py-1 {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+.py-6 {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.py-12 {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.mt-6 {
+  margin-top: 1.5rem;
+}
+
+.mt-8 {
+  margin-top: 2rem;
+}
+
+.mt-12 {
+  margin-top: 3rem;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.ml-1 {
+  margin-left: 0.25rem;
+}
+
+.mr-2 {
+  margin-right: 0.5rem;
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Backgrounds */
+.bg-gradient-to-b {
+  background-image: linear-gradient(to bottom, var(--from), var(--to));
+}
+
+.bg-gradient-to-t {
+  background-image: linear-gradient(to top, var(--from), var(--to));
+}
+
+.from-white {
+  --from: var(--white);
+}
+
+.to-blue-50 {
+  --to: var(--blue-50);
+}
+
+.from-blue-900\/40 {
+  --from: rgba(30, 58, 138, 0.4);
+}
+
+.to-transparent {
+  --to: transparent;
+}
+
+/* Hover states */
+.hover\:bg-blue-50:hover {
+  background-color: var(--blue-50);
+}
+
+.hover\:bg-blue-700:hover {
+  background-color: var(--blue-700);
+}
+
+.hover\:bg-green-700:hover {
+  background-color: var(--green-700);
+}
+
+.hover\:text-blue-700:hover {
+  color: var(--blue-700);
+}
+
+.hover\:text-gray-900:hover {
+  color: #111827;
+}
+
+.hover\:underline:hover {
+  text-decoration: underline;
+}
+
+/* Media Queries */
+@media (min-width: 400px) {
+  .min-\[400px\]\:flex-row {
+    flex-direction: row;
+  }
+}
+
+@media (min-width: 640px) {
+  .sm\:text-4xl {
+    font-size: 2.25rem;
+  }
+  
+  .sm\:gap-6 {
+    gap: 1.5rem;
+  }
+  
+  .sm\:w-full {
+    width: 100%;
+  }
+}
+
+@media (min-width: 768px) {
+  .md\:flex {
+    display: flex;
+  }
+  
+  .md\:flex-row {
+    flex-direction: row;
+  }
+  
+  .md\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  
+  .md\:px-6 {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+  
+  .md\:py-24 {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+  
+  .md\:text-xl {
+    font-size: 1.25rem;
+  }
+  
+  .md\:text-4xl {
+    font-size: 2.25rem;
+  }
+  
+  .md\:text-5xl {
+    font-size: 3rem;
+  }
+  
+  .md\:hidden {
+    display: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .lg\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  
+  .lg\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  
+  .lg\:gap-10 {
+    gap: 2.5rem;
+  }
+  
+  .lg\:gap-12 {
+    gap: 3rem;
+  }
+  
+  .lg\:justify-end {
+    justify-content: flex-end;
+  }
+  
+  .lg\:py-32 {
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+  }
+  
+  .lg\:text-6xl {
+    font-size: 3.75rem;
+  }
+  
+  .lg\:order-last {
+    order: 9999;
+  }
+}
+  </style>
+</head>
+<body>
+  <div class="flex min-h-screen flex-col">
+    <header class="sticky top-0 z-40 w-full border-b bg-white">
+      <div class="container flex h-16 items-center justify-between">
+        <div class="flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6 text-green-600">
+            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
+          </svg>
+          <span class="text-xl font-bold text-blue-700">DahriLabs</span>
+        </div>
+        <!-- <nav class="hidden md:flex gap-6">
+          <a href="#features" class="text-sm font-medium text-blue-900 hover:text-blue-700">
+            Features
+          </a>
+          <a href="#how-it-works" class="text-sm font-medium text-blue-900 hover:text-blue-700">
+            How It Works
+          </a>
+          <a href="#testimonials" class="text-sm font-medium text-blue-900 hover:text-blue-700">
+            Testimonials
+          </a>
+          <a href="#pricing" class="text-sm font-medium text-blue-900 hover:text-blue-700">
+            Pricing
+          </a>
+        </nav> -->
+        <!-- <div class="flex items-center gap-4">
+          <button class="hidden md:flex button button-outline border-blue-600 text-blue-700 hover:bg-blue-50">
+            Sign In
+          </button>
+          <button class="hidden md:flex button bg-green-600 hover:bg-green-700 text-white">
+            Get Started
+          </button>
+          <button class="md:hidden button-ghost">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6">
+              <line x1="4" x2="20" y1="12" y2="12"></line>
+              <line x1="4" x2="20" y1="6" y2="6"></line>
+              <line x1="4" x2="20" y1="18" y2="18"></line>
+            </svg>
+            <span class="sr-only">Toggle menu</span>
+          </button>
+        </div>
+      </div> -->
+    </header>
+    <main class="flex-1">
+      <section class="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-white to-blue-50">
+        <div class="container px-4 md:px-6">
+          <div class="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
+            <div class="flex flex-col justify-center space-y-4">
+              <div class="inline-block rounded-lg bg-green-100 px-3 py-1 text-sm text-green-700">
+                AI-Powered First Aid
+              </div>
+              <h1 class="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl text-blue-900">
+                Your AI First Aid Assistant, Always Ready
+              </h1>
+              <p class="max-w-[600px] text-gray-600 md:text-xl">
+                DahriLabs' AI assistant provides instant, accurate first aid guidance through text and image recognition when every second counts.
+              </p>
+              <div class="flex flex-col gap-2 min-[400px]:flex-row">
+                <a href="{{ url_for('chat') }}"> <button class="button bg-green-600 hover:bg-green-700 text-white">Try Now</button></a>
+              </div>
+            </div>
+            <div class="flex justify-center">
+              <div class="relative w-full max-w-[500px] h-[400px] rounded-2xl overflow-hidden shadow-xl">
+                <img src="https://t4.ftcdn.net/jpg/06/32/90/79/360_F_632907920_9mUAJdojy5L613RzjvC5UJZfddYFF2iO.jpg" alt="DahriLabs First Aid Assistant App" class="object-cover w-full h-full" />
+                <div class="absolute inset-0 bg-gradient-to-t from-blue-900/40 to-transparent"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="features" class="w-full py-12 md:py-24 bg-white">
+        <div class="container px-4 md:px-6">
+          <div class="flex flex-col items-center justify-center space-y-4 text-center">
+            <div class="space-y-2">
+              <div class="inline-block rounded-lg bg-blue-100 px-3 py-1 text-sm text-blue-700">
+                Key Features
+              </div>
+              <h2 class="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-blue-900">
+                Multimodal First Aid Guidance
+              </h2>
+              <p class="max-w-[900px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                Our AI assistant uses multiple input methods to provide the most accurate and timely first aid guidance.
+              </p>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 mt-12">
+            <div class="flex flex-col items-center space-y-4 rounded-lg border border-gray-200 p-6 shadow-sm">
+              <div class="rounded-full bg-green-100 p-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6 text-green-700">
+                  <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"></path>
+                  <circle cx="12" cy="13" r="3"></circle>
+                </svg>
+              </div>
+              <h3 class="text-xl font-bold text-blue-900">Image Recognition</h3>
+              <p class="text-center text-gray-600">
+                Take a photo of injuries or medical situations for instant analysis and guidance.
+              </p>
+            </div>
+            <!-- <div class="flex flex-col items-center space-y-4 rounded-lg border border-gray-200 p-6 shadow-sm">
+              <div class="rounded-full bg-green-100 p-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6 text-green-700">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+              </div>
+              <h3 class="text-xl font-bold text-blue-900">Voice Interaction</h3>
+              <p class="text-center text-gray-600">
+                Hands-free operation with voice commands and spoken instructions during emergencies.
+              </p>
+            </div> -->
+            <div class="flex flex-col items-center space-y-4 rounded-lg border border-gray-200 p-6 shadow-sm">
+              <div class="rounded-full bg-green-100 p-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6 text-green-700">
+                  <path d="M9.5 2h5L18 7h3a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h3l3.5-5z"></path>
+                  <circle cx="12" cy="13" r="2"></circle>
+                  <path d="M12 15v4"></path>
+                  <path d="M12 11v-1"></path>
+                  <path d="m9 7 1.5-2.5h3L15 7"></path>
+                </svg>
+              </div>
+              <h3 class="text-xl font-bold text-blue-900">AI-Powered Guidance</h3>
+              <p class="text-center text-gray-600">
+                Advanced AI provides step-by-step instructions tailored to each specific emergency.
+              </p>
+            </div>
+            <div class="flex flex-col items-center space-y-4 rounded-lg border border-gray-200 p-6 shadow-sm">
+              <div class="rounded-full bg-green-100 p-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6 text-green-700">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+              </div>
+              <h3 class="text-xl font-bold text-blue-900">Real-time Assistance</h3>
+              <p class="text-center text-gray-600">
+                Immediate response with no delay, critical when every second counts.
+              </p>
+            </div>
+            <div class="flex flex-col items-center space-y-4 rounded-lg border border-gray-200 p-6 shadow-sm">
+              <div class="rounded-full bg-green-100 p-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6 text-green-700">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+              </div>
+              <h3 class="text-xl font-bold text-blue-900">Medical Accuracy</h3>
+              <p class="text-center text-gray-600">
+                Developed with medical professionals and updated with the latest first aid protocols.
+              </p>
+            </div>
+            <!-- <div class="flex flex-col items-center space-y-4 rounded-lg border border-gray-200 p-6 shadow-sm">
+              <div class="rounded-full bg-green-100 p-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6 text-green-700">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                  <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+              </div>
+              <h3 class="text-xl font-bold text-blue-900">Offline Capability</h3>
+              <p class="text-center text-gray-600">
+                Works without internet connection, ensuring help is available anywhere.
+              </p>
+            </div> -->
+          </div>
+        </div>
+      </section>
+
+      <section id="how-it-works" class="w-full py-12 md:py-24 bg-blue-50">
+        <div class="container px-4 md:px-6">
+          <div class="flex flex-col items-center justify-center space-y-4 text-center">
+            <div class="space-y-2">
+              <div class="inline-block rounded-lg bg-blue-100 px-3 py-1 text-sm text-blue-700">
+                How It Works
+              </div>
+              <h2 class="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-blue-900">
+                Simple Steps to Get Help
+              </h2>
+              <p class="max-w-[900px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                Our AI assistant is designed to be intuitive and easy to use, especially in stressful situations.
+              </p>
+            </div>
+          </div>
+          <div class="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-2">
+            <img src="https://media.istockphoto.com/id/1340675809/vector/doctors-vector-illustration-material-pharmacist-doctor-explaining-to-patients.jpg?s=612x612&w=0&k=20&c=BD6kaJbqQh3iS04NnkiRr6Pmfi39VeSo5r8GdK5Jh1w=" alt="DahriLabs First Aid App in action" class="mx-auto aspect-square overflow-hidden rounded-xl object-cover object-center sm:w-full" />
+            <div class="flex flex-col justify-center space-y-4">
+              <ul class="space-y-6">
+                <li class="flex items-start gap-4">
+                  <div class="flex h-8 w-8 items-center justify-center rounded-full bg-green-100 text-green-700">
+                    1
+                  </div>
+                  <div>
+                    <h3 class="text-xl font-bold text-blue-900">Open the App</h3>
+                    <p class="text-gray-600">Launch the DahriLabs First Aid Assistant on your device.</p>
+                  </div>
+                </li>
+                <li class="flex items-start gap-4">
+                  <div class="flex h-8 w-8 items-center justify-center rounded-full bg-green-100 text-green-700">
+                    2
+                  </div>
+                  <div>
+                    <h3 class="text-xl font-bold text-blue-900">Describe or Show the Emergency</h3>
+                    <p class="text-gray-600">Type or take a photo of the medical situation.</p>
+                  </div>
+                </li>
+                <li class="flex items-start gap-4">
+                  <div class="flex h-8 w-8 items-center justify-center rounded-full bg-green-100 text-green-700">
+                    3
+                  </div>
+                  <div>
+                    <h3 class="text-xl font-bold text-blue-900">Follow AI Guidance</h3>
+                    <p class="text-gray-600">Receive step-by-step instructions tailored to the emergency.</p>
+                  </div>
+                </li>
+                <li class="flex items-start gap-4">
+                  <div class="flex h-8 w-8 items-center justify-center rounded-full bg-green-100 text-green-700">
+                    4
+                  </div>
+                  <div>
+                    <h3 class="text-xl font-bold text-blue-900">Get Professional Help</h3>
+                    <p class="text-gray-600">The app can call emergency services if needed while you provide first aid.</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- <section id="testimonials" class="w-full py-12 md:py-24 bg-white">
+        <div class="container px-4 md:px-6">
+          <div class="flex flex-col items-center justify-center space-y-4 text-center">
+            <div class="space-y-2">
+              <div class="inline-block rounded-lg bg-green-100 px-3 py-1 text-sm text-green-700">
+                Testimonials
+              </div>
+              <h2 class="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-blue-900">
+                Lives Changed
+              </h2>
+              <p class="max-w-[900px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                Hear from people who have used DahriLabs First Aid Assistant in real emergencies.
+              </p>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 mt-12">
+            <div class="flex flex-col justify-between space-y-4 rounded-lg border border-gray-200 p-6 shadow-sm">
+              <div>
+                <div class="flex items-center gap-2 mb-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-yellow-500">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-yellow-500">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-yellow-500">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-yellow-500">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-yellow-500">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                  </svg>
+                </div>
+                <p class="text-gray-600 italic">
+                  "When my son had a severe allergic reaction, the app guided me through using his EpiPen correctly. The paramedics said my quick action made all the difference."
+                </p>
+              </div>
+              <div class="flex items-center gap-4">
+                <div class="rounded-full bg-gray-100 p-1">
+                  <div class="h-10 w-10 rounded-full bg-gray-300"></div>
+                </div>
+                <div>
+                  <p class="font-medium text-blue-900">Sarah Johnson</p>
+                  <p class="text-sm text-gray-500">Parent</p>
+                </div>
+              </div>
+            </div>
+            <div class="flex flex-col justify-between space-y-4 rounded-lg border border-gray-200 p-6 shadow-sm">
+              <div>
+                <div class="flex items-center gap-2 mb-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-yellow-500">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-yellow-500">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-yellow-500">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-yellow-500">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-yellow-500">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                  </svg>
+                </div>
+                <p class="text-gray-600 italic">
+                  "During a hiking trip, my friend fell and injured his ankle. I took a photo, and the app immediately identified a potential fracture and guided me through proper immobilization."
+                </p>
+              </div>
+              <div class="flex items-center gap-4">
+                <div class="rounded-full bg-gray-100 p-1">
+                  <div class="h-10 w-10 rounded-full bg-gray-300"></div>
+                </div>
+                <div>
+                  <p class="font-medium text-blue-900">Michael Chen</p>
+                  <p class="text-sm text-gray-500">Outdoor Enthusiast</p>
+                </div>
+              </div>
+            </div>
+            <div class="flex flex-col justify-between space-y-4 rounded-lg border border-gray-200 p-6 shadow-sm">
+              <div>
+                <div class="flex items-center gap-2 mb-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-yellow-500">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-yellow-500">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-yellow-500">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-yellow-500">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-yellow-500">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                  </svg>
+                </div>
+                <p class="text-gray-600 italic">
+                  "As a teacher, I keep this app on my phone for school emergencies. When a student had a seizure, the voice guidance kept me calm and helped me provide proper care until medical help arrived."
+                </p>
+              </div>
+              <div class="flex items-center gap-4">
+                <div class="rounded-full bg-gray-100 p-1">
+                  <div class="h-10 w-10 rounded-full bg-gray-300"></div>
+                </div>
+                <div>
+                  <p class="font-medium text-blue-900">Emma Rodriguez</p>
+                  <p class="text-sm text-gray-500">Elementary School Teacher</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section> -->
+
+      <!-- <section id="pricing" class="w-full py-12 md:py-24 bg-blue-50">
+        <div class="container px-4 md:px-6">
+          <div class="flex flex-col items-center justify-center space-y-4 text-center">
+            <div class="space-y-2">
+              <div class="inline-block rounded-lg bg-blue-100 px-3 py-1 text-sm text-blue-700">
+                Pricing
+              </div>
+              <h2 class="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-blue-900">
+                Simple, Transparent Pricing
+              </h2>
+              <p class="max-w-[900px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                Choose the plan that works best for you or your organization.
+              </p>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 mt-12">
+            <div class="flex flex-col rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+              <div class="space-y-2">
+                <h3 class="text-2xl font-bold text-blue-900">Personal</h3>
+                <p class="text-gray-600">For individuals and families</p>
+              </div>
+              <div class="mt-4 flex items-baseline">
+                <span class="text-4xl font-bold text-blue-900">$4.99</span>
+                <span class="ml-1 text-gray-600">/month</span>
+              </div>
+              <ul class="mt-6 space-y-3">
+                <li class="flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 text-green-600">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                  <span class="text-gray-600">Full access to all features</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 text-green-600">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                  <span class="text-gray-600">Up to 5 family members</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 text-green-600">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                  <span class="text-gray-600">Offline mode</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 text-green-600">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                  <span class="text-gray-600">Regular updates</span>
+                </li>
+              </ul>
+              <button class="mt-8 button bg-green-600 hover:bg-green-700 text-white">Get Started</button>
+            </div>
+            <div class="flex flex-col rounded-lg border-2 border-blue-600 bg-white p-6 shadow-lg">
+              <div class="space-y-2">
+                <div class="inline-block rounded-full bg-blue-100 px-3 py-1 text-xs text-blue-700">
+                  Most Popular
+                </div>
+                <h3 class="text-2xl font-bold text-blue-900">Professional</h3>
+                <p class="text-gray-600">For small businesses and organizations</p>
+              </div>
+              <div class="mt-4 flex items-baseline">
+                <span class="text-4xl font-bold text-blue-900">$9.99</span>
+                <span class="ml-1 text-gray-600">/month</span>
+              </div>
+              <ul class="mt-6 space-y-3">
+                <li class="flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 text-green-600">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                  <span class="text-gray-600">All Personal features</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 text-green-600">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                  <span class="text-gray-600">Up to 20 users</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 text-green-600">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                  <span class="text-gray-600">Priority support</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 text-green-600">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                  <span class="text-gray-600">Usage analytics</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 text-green-600">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                  <span class="text-gray-600">Custom emergency protocols</span>
+                </li>
+              </ul>
+              <button class="mt-8 button bg-blue-600 hover:bg-blue-700 text-white">Get Started</button>
+            </div>
+            <div class="flex flex-col rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+              <div class="space-y-2">
+                <h3 class="text-2xl font-bold text-blue-900">Enterprise</h3>
+                <p class="text-gray-600">For large organizations and healthcare providers</p>
+              </div>
+              <div class="mt-4 flex items-baseline">
+                <span class="text-4xl font-bold text-blue-900">Custom</span>
+              </div>
+              <ul class="mt-6 space-y-3">
+                <li class="flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 text-green-600">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                  <span class="text-gray-600">All Professional features</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 text-green-600">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                  <span class="text-gray-600">Unlimited users</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 text-green-600">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                  <span class="text-gray-600">Dedicated account manager</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 text-green-600">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                  <span class="text-gray-600">Custom integration</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 text-green-600">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                  <span class="text-gray-600">On-premise deployment options</span>
+                </li>
+              </ul>
+              <button class="mt-8 button button-outline border-blue-600 text-blue-700 hover:bg-blue-50">
+                Contact Sales
+              </button>
+            </div>
+          </div>
+        </div>
+      </section> -->
+
+      <section class="w-full py-12 md:py-24 bg-blue-900 text-white">
+        <div class="container px-4 md:px-6">
+          <div class="grid gap-6 lg:grid-cols-2 items-center">
+            <div class="flex flex-col justify-center space-y-4">
+              <h2 class="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+                Ready to Save Lives?
+              </h2>
+              <p class="max-w-[600px] text-blue-100 md:text-xl">
+                Download the DahriLabs First Aid Assistant today and be prepared for any emergency.
+              </p>
+            </div>
+            <div class="flex flex-col gap-2 min-[400px]:flex-row justify-center lg:justify-end">
+              <!-- <button class="button bg-green-600 hover:bg-green-700 text-white">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="mr-2 h-5 w-5"
+                >
+                  <path d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 6-8 6-12.22A4.91 4.91 0 0 0 17 5c-2.22 0-4 1.44-5 2-1-.56-2.78-2-5-2a4.9 4.9 0 0 0-5 4.78C2 14 5 22 8 22c1.25 0 2.5-1.06 4-1.06Z" />
+                  <path d="M10 2c1 .5 2 2 2 5" />
+                </svg>
+                Use Now
+              </button> -->
+              <button class="button bg-green-600 hover:bg-green-700 text-white">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="mr-2 h-5 w-5"
+                >
+                  <polygon points="3 2 21 12 3 22" />
+                </svg>
+                Use Now
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="w-full border-t bg-white py-6">
+      <div class="container flex flex-col items-center justify-between gap-4 md:flex-row px-4 md:px-6">
+        <div class="flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6 text-green-600">
+            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
+          </svg>
+          <span class="text-xl font-bold text-blue-700">DahriLabs</span>
+        </div>
+        <p class="text-sm text-gray-500">
+          © <script>document.write(new Date().getFullYear())</script> DahriLabs. All rights reserved.
+        </p>
+        <nav class="flex gap-4 sm:gap-6">
+          <a href="#" class="text-sm font-medium text-gray-500 hover:text-gray-900">
+            Terms of Service
+          </a>
+          <a href="#" class="text-sm font-medium text-gray-500 hover:text-gray-900">
+            Privacy Policy
+          </a>
+          <a href="#" class="text-sm font-medium text-gray-500 hover:text-gray-900">
+            Contact Us
+          </a>
+        </nav>
+      </div>
+    </footer>
+  </div>
+  <script>
+    // Mobile menu toggle
+document.addEventListener('DOMContentLoaded', function() {
+  const menuButton = document.querySelector('.md\\:hidden');
+  
+  if (menuButton) {
+    menuButton.addEventListener('click', function() {
+      // This would typically toggle a mobile menu
+      // For a simple implementation, we could create a mobile menu element and toggle its visibility
+      alert('Mobile menu would open here');
+    });
+  }
+  
+  // Smooth scrolling for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      const targetId = this.getAttribute('href');
+      if (targetId === '#') return;
+      
+      const targetElement = document.querySelector(targetId);
+      if (targetElement) {
+        window.scrollTo({
+          top: targetElement.offsetTop - 80, // Offset for the fixed header
+          behavior: 'smooth'
+        });
+      }
+    });
+  });
+  
+  // Update copyright year
+  const yearElements = document.querySelectorAll('.copyright-year');
+  const currentYear = new Date().getFullYear();
+  
+  yearElements.forEach(element => {
+    element.textContent = currentYear;
+  });
+  
+  // Add animation classes on scroll
+  const animateOnScroll = function() {
+    const elements = document.querySelectorAll('.animate-on-scroll');
+    
+    elements.forEach(element => {
+      const elementPosition = element.getBoundingClientRect().top;
+      const windowHeight = window.innerHeight;
+      
+      if (elementPosition < windowHeight - 100) {
+        element.classList.add('animated');
+      }
+    });
+  };
+  
+  // Call once on load
+  animateOnScroll();
+  
+  // Call on scroll
+  window.addEventListener('scroll', animateOnScroll);
+});
+  </script>
+</body>
+</html>
